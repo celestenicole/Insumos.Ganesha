@@ -320,8 +320,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // 3 contactos (formato: 51XXXXXXXXX, SIN '+')
   const wswContacts = [
     { name: 'Representante de ventas', role: 'Fiorella Gómez', phone: '51974522848', avatar: null },
-    { name: 'Administración', role: '', phone: '51958982554', avatar: null },
-    { name: 'Asistente administrativo', role: '', phone: '51965370817', avatar: null }
+
+    { name: 'Asesor de ventas', role: '', phone: '51965370817', avatar: null }
   ];
 
   const defaultMsg = 'Hola Insumos Ganesha, quisiera más información.';
@@ -372,5 +372,41 @@ document.addEventListener('DOMContentLoaded', () => {
   panel.addEventListener('click', (e) => { if (e.target === panel) hide(); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') hide(); });
 });
+/* ===== Impacto al hacer scroll + parallax suave ===== */
+(function(){
+  const section = document.querySelector('.svc');
+
+  // Animación de entrada con IntersectionObserver
+  if ('IntersectionObserver' in window && section){
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          section.classList.add('is-visible');
+          io.unobserve(section);
+        }
+      });
+    }, { threshold: 0.25 });
+    io.observe(section);
+  } else {
+    section && section.classList.add('is-visible');
+  }
+
+  // Parallax suave en la imagen (no intrusivo)
+  const media = document.querySelector('.svc__media');
+  const img = media ? media.querySelector('img') : null;
+  if (media && img){
+    const maxTilt = 6; // grados
+    media.addEventListener('mousemove', (ev)=>{
+      const r = media.getBoundingClientRect();
+      const px = (ev.clientX - r.left) / r.width - 0.5;
+      const py = (ev.clientY - r.top) / r.height - 0.5;
+      img.style.transform =
+        `scale(1.02) rotateX(${-py*maxTilt}deg) rotateY(${px*maxTilt}deg)`;
+    });
+    media.addEventListener('mouseleave', ()=>{
+      img.style.transform = '';
+    });
+  }
+})();
 
 
