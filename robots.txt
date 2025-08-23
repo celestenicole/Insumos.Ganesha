@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
-Sitemap: https://celestenicole.github.io/Insumos.Ganesha/sitemap.xml
+
+Sitemap: https://insumosganesha.com/sitemap.xml
